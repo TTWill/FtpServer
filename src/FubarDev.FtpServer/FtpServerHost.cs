@@ -29,6 +29,12 @@ namespace FubarDev.FtpServer
         }
 
         /// <inheritdoc />
+        public IReadOnlyCollection<IFtpService> ServiceCollection
+        {
+            get => _ftpServices;
+        }
+
+        /// <inheritdoc />
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             foreach (var ftpService in _ftpServices)
@@ -43,6 +49,30 @@ namespace FubarDev.FtpServer
             foreach (var ftpService in _ftpServices.Reverse())
             {
                 await ftpService.StopAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task PauseAsync(CancellationToken cancellationToken)
+        {
+            foreach (var ftpService in _ftpServices)
+            {
+                if (ftpService is IPausableFtpService pausableFtpService)
+                    await pausableFtpService.PauseAsync(cancellationToken).ConfigureAwait(false);
+                else
+                    await ftpService.StopAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task ContinueAsync(CancellationToken cancellationToken)
+        {
+            foreach (var ftpService in _ftpServices.Reverse())
+            {
+                if (ftpService is IPausableFtpService pausableFtpService)
+                    await pausableFtpService.ContinueAsync(cancellationToken).ConfigureAwait(false);
+                else
+                    await ftpService.StartAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }
