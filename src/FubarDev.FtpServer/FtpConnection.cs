@@ -356,7 +356,11 @@ namespace FubarDev.FtpServer
             }
             finally
             {
-                _serviceControl.Release();
+                try
+                {
+                    _serviceControl.Release();
+                }
+                catch (ObjectDisposedException) { }
             }
         }
 
@@ -454,12 +458,20 @@ namespace FubarDev.FtpServer
                 }
                 finally
                 {
-                    _serviceControl.Release();
+                    try
+                    {
+                        _serviceControl.Release();
+                    }
+                    catch (ObjectDisposedException) { }
                 }
             }
             finally
             {
-                _stopSemaphore.Release();
+                try
+                {
+                    _stopSemaphore.Release();
+                }
+                catch (ObjectDisposedException) { }
             }
 
             OnClosed();
