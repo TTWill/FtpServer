@@ -281,7 +281,11 @@ namespace FubarDev.FtpServer.FileSystem.GoogleDrive
             }
             finally
             {
-                _uploadsLock.Release();
+                try
+                {
+                    _uploadsLock.Release();
+                }
+                catch (ObjectDisposedException) { }
             }
 
             return backgroundUploads;
@@ -317,7 +321,11 @@ namespace FubarDev.FtpServer.FileSystem.GoogleDrive
             }
             finally
             {
-                _uploadsLock.Release();
+                try
+                {
+                    _uploadsLock.Release();
+                }
+                catch (ObjectDisposedException) { }
             }
 
             return backgroundUploads;
@@ -383,10 +391,10 @@ namespace FubarDev.FtpServer.FileSystem.GoogleDrive
                 _uploadsLock.Wait();
                 try
                 {
-                _uploads.Remove(fileId);
-            }
-            finally
-            {
+                    _uploads.Remove(fileId);
+                }
+                finally
+                {
                     _uploadsLock.Release();
                 }
             }
@@ -480,7 +488,11 @@ namespace FubarDev.FtpServer.FileSystem.GoogleDrive
             }
             finally
             {
-                _uploadsLock.Release();
+                try
+                {
+                    _uploadsLock.Release();
+                }
+                catch (ObjectDisposedException) { }
             }
 
             return result;

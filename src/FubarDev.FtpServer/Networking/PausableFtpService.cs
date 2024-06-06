@@ -82,7 +82,11 @@ namespace FubarDev.FtpServer.Networking
                         if (status == FtpServiceStatus.Running)
                         {
                             // ReSharper disable once AccessToDisposedClosure
-                            semaphore.Release();
+                            try
+                            {
+                                semaphore.Release();
+                            }
+                            catch (ObjectDisposedException) { }
                         }
                     }));
 
@@ -180,7 +184,11 @@ namespace FubarDev.FtpServer.Networking
                 if (status == FtpServiceStatus.Running)
                 {
                     // ReSharper disable once AccessToDisposedClosure
-                    semaphore.Release();
+                    try
+                    {
+                        semaphore.Release();
+                    }
+                    catch (ObjectDisposedException) { }
                 }
             }));
 
