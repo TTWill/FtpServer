@@ -28,6 +28,7 @@ using FubarDev.FtpServer.DataConnection;
 using FubarDev.FtpServer.Events;
 using FubarDev.FtpServer.Features;
 using FubarDev.FtpServer.Features.Impl;
+using FubarDev.FtpServer.Interfaces;
 using FubarDev.FtpServer.Localization;
 using FubarDev.FtpServer.Networking;
 using FubarDev.FtpServer.ServerCommands;
