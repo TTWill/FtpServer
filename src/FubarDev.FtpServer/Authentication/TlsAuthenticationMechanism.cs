@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
 using FubarDev.FtpServer.Features;
 using FubarDev.FtpServer.ServerCommands;
 
@@ -147,22 +148,29 @@ namespace FubarDev.FtpServer.Authentication
             }
             else
             {
-                var secureConnectionFeature = Connection.Features.Get<ISecureConnectionFeature>();
-                switch (protCode.ToUpperInvariant())
+                try
                 {
-                    case "C":
-                        secureConnectionFeature.CreateEncryptedStream = Task.FromResult;
-                        response = new FtpResponse(200, T("Data channel protection level set to {0}.", protCode));
-                        break;
-                    case "P":
-                        secureConnectionFeature.CreateEncryptedStream = stream => CreateSslStream(hostSelector.SelectedHost, stream);
-                        response = new FtpResponse(200, T("Data channel protection level set to {0}.", protCode));
-                        break;
-                    default:
-                        response = new FtpResponse(
-                            SecurityActionResult.RequestedProtLevelNotSupported,
-                            T("A data channel protection level other than C, or P is not supported."));
-                        break;
+                    var secureConnectionFeature = Connection.Features.Get<ISecureConnectionFeature>();
+                    switch (protCode.ToUpperInvariant())
+                    {
+                        case "C":
+                            secureConnectionFeature.CreateEncryptedStream = Task.FromResult;
+                            response = new FtpResponse(200, T("Data channel protection level set to {0}.", protCode));
+                            break;
+                        case "P":
+                            secureConnectionFeature.CreateEncryptedStream = stream => CreateSslStream(hostSelector.SelectedHost, stream);
+                            response = new FtpResponse(200, T("Data channel protection level set to {0}.", protCode));
+                            break;
+                        default:
+                            response = new FtpResponse(
+                                SecurityActionResult.RequestedProtLevelNotSupported,
+                                T("A data channel protection level other than C, or P is not supported."));
+                            break;
+                    }
+                }
+                catch (IOException ex)
+                {
+                    response = new FtpResponse(500, T("Error in transport-stream: {0}", ex.Message));
                 }
             }
 
