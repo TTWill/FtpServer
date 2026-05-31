@@ -10,7 +10,7 @@
     <ProjectReference Include="..\FubarDev.FtpServer.Abstractions\FubarDev.FtpServer.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" PrivateAssets="All" />
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" PrivateAssets="All" />
   </ItemGroup>
   <Import Project="..\..\third-party\DotNet.Glob\DotNet.Glob.projitems" Label="Shared" />
 </Project>
