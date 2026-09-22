@@ -360,7 +360,9 @@ namespace FubarDev.FtpServer
                 {
                     _serviceControl.Release();
                 }
-                catch (ObjectDisposedException) { }
+                catch (ObjectDisposedException)
+                {
+                }
             }
         }
 
@@ -462,7 +464,9 @@ namespace FubarDev.FtpServer
                     {
                         _serviceControl.Release();
                     }
-                    catch (ObjectDisposedException) { }
+                    catch (ObjectDisposedException)
+                    {
+                    }
                 }
             }
             finally
@@ -471,7 +475,9 @@ namespace FubarDev.FtpServer
                 {
                     _stopSemaphore.Release();
                 }
-                catch (ObjectDisposedException) { }
+                catch (ObjectDisposedException)
+                {
+                }
             }
 
             OnClosed();
